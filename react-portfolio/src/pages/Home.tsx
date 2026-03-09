@@ -1,5 +1,6 @@
 import Footer from "../composants/Footer";
 import Navbar from "../composants/Header";
+import '../styles/Home.scss';
 
 const Home = () =>{
     return (
@@ -11,7 +12,7 @@ const Home = () =>{
         <main>
 
         </main>
-        
+
         <Footer/>
         </>
 )};
