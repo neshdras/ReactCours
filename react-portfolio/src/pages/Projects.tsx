@@ -1,33 +1,51 @@
 import { useEffect, useState } from "react";
-import  data  from "../data/projects.json";
 import ProjectCard from "../composants/ProjectCard";
+import data from '../data/projects.json';
 
-type Project = {
-    id:number;
+type Project ={
+    id: number;
     title: string;
     description: string;
     image: string;
 };
 
 const Projects = () => {
-    const [projects, setProjects] = useState<Project[]> ([]);
 
-    useEffect(() => {
-        // simuler un projet
-        setProjects(data);
+    const [projects, setProjects] = useState<Project[]>([]);
+    const [search, setSearch] = useState('');
+
+    useEffect(()=>{
+        setProjects(data)
     }, []);
-    return (
+
+    const filteredProjects = projects.filter((project) =>
+        project.title.toLowerCase().includes(search.toLowerCase())
+    );
+
+    return(
         <section>
-            <h2>Mes Projets</h2>
-            <div className="projet-list">
-                {projects.map((project)=>(
-                    <ProjectCard
-                    key={project.id}
-                    title={project.title}
-                    description={project.description}
-                    image={project.image}
-                />
-                ))}
+            <h2>Mes projets</h2>
+
+            <input
+                type="text"
+                placeholder="Rechercher un projet..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+            />
+
+            <div className="project-list">
+                {filteredProjects.length > 0 ? (
+                    filteredProjects.map((project) => (
+                        <ProjectCard
+                            key={project.id}
+                            title={project.title}
+                            description={project.description}
+                            image={project.image}
+                        />
+                    ))
+                ) : (
+                    <p>Aucun projet ne correspond à votre recherche.</p>
+                )}
             </div>
         </section>
     );
